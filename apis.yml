@@ -1,0 +1,205 @@
+name: Google Cloud Platform
+description: Google Cloud Platform provides a comprehensive suite of cloud computing services including compute, storage, databases, machine learning, and networking capabilities.
+url: https://cloud.google.com/
+created: 2024-01-01 00:00:00+00:00
+modified: 2024-01-01 00:00:00+00:00
+apis:
+- name: Google Compute Engine API
+  description: Create and manage virtual machines on Google's infrastructure
+  image: https://cloud.google.com/images/social-icon-google-cloud-1200-630.png
+  humanURL: https://cloud.google.com/compute
+  baseURL: https://compute.googleapis.com
+  tags:
+  - Virtual Machines
+  - Infrastructure
+  - IaaS
+  - Compute
+  properties:
+  - type: Documentation
+    url: https://cloud.google.com/compute/docs/reference/rest/v1
+  - type: OpenAPI
+    url: https://compute.googleapis.com/$discovery/rest?version=v1
+  - type: Authentication
+    url: https://cloud.google.com/compute/docs/authentication
+  - type: Pricing
+    url: https://cloud.google.com/compute/pricing
+  - type: Console
+    url: https://console.cloud.google.com/compute
+- name: Google Cloud Storage API
+  description: Object storage service for storing and accessing data on Google Cloud Platform
+  image: https://cloud.google.com/images/social-icon-google-cloud-1200-630.png
+  humanURL: https://cloud.google.com/storage
+  baseURL: https://storage.googleapis.com
+  tags:
+  - Object Storage
+  - Storage
+  - Files
+  - Buckets
+  properties:
+  - type: Documentation
+    url: https://cloud.google.com/storage/docs/json_api
+  - type: OpenAPI
+    url: https://storage.googleapis.com/$discovery/rest?version=v1
+  - type: Authentication
+    url: https://cloud.google.com/storage/docs/authentication
+  - type: Pricing
+    url: https://cloud.google.com/storage/pricing
+  - type: Console
+    url: https://console.cloud.google.com/storage
+- name: Google Kubernetes Engine API
+  description: Deploy, manage, and scale containerized applications using Kubernetes
+  image: https://cloud.google.com/images/social-icon-google-cloud-1200-630.png
+  humanURL: https://cloud.google.com/kubernetes-engine
+  baseURL: https://container.googleapis.com
+  tags:
+  - Kubernetes
+  - Containers
+  - Orchestration
+  - Docker
+  properties:
+  - type: Documentation
+    url: https://cloud.google.com/kubernetes-engine/docs/reference/rest
+  - type: OpenAPI
+    url: https://container.googleapis.com/$discovery/rest?version=v1
+  - type: Authentication
+    url: https://cloud.google.com/kubernetes-engine/docs/how-to/api-server-authentication
+  - type: Pricing
+    url: https://cloud.google.com/kubernetes-engine/pricing
+  - type: Console
+    url: https://console.cloud.google.com/kubernetes
+- name: Google Cloud Functions API
+  description: Event-driven serverless compute platform for building and connecting cloud services
+  image: https://cloud.google.com/images/social-icon-google-cloud-1200-630.png
+  humanURL: https://cloud.google.com/functions
+  baseURL: https://cloudfunctions.googleapis.com
+  tags:
+  - Serverless
+  - Functions
+  - FaaS
+  - Event-Driven
+  properties:
+  - type: Documentation
+    url: https://cloud.google.com/functions/docs/reference/rest
+  - type: OpenAPI
+    url: https://cloudfunctions.googleapis.com/$discovery/rest?version=v1
+  - type: Authentication
+    url: https://cloud.google.com/functions/docs/securing
+  - type: Pricing
+    url: https://cloud.google.com/functions/pricing
+  - type: Console
+    url: https://console.cloud.google.com/functions
+- name: Google BigQuery API
+  description: Serverless, highly scalable, and cost-effective data warehouse for analytics
+  image: https://cloud.google.com/images/social-icon-google-cloud-1200-630.png
+  humanURL: https://cloud.google.com/bigquery
+  baseURL: https://bigquery.googleapis.com
+  tags:
+  - Data Warehouse
+  - Analytics
+  - Big Data
+  - SQL
+  properties:
+  - type: Documentation
+    url: https://cloud.google.com/bigquery/docs/reference/rest
+  - type: OpenAPI
+    url: https://bigquery.googleapis.com/$discovery/rest?version=v2
+  - type: Authentication
+    url: https://cloud.google.com/bigquery/docs/authentication
+  - type: Pricing
+    url: https://cloud.google.com/bigquery/pricing
+  - type: Console
+    url: https://console.cloud.google.com/bigquery
+- name: Google Cloud Pub/Sub API
+  description: Messaging and ingestion service for event-driven systems and streaming analytics
+  image: https://cloud.google.com/images/social-icon-google-cloud-1200-630.png
+  humanURL: https://cloud.google.com/pubsub
+  baseURL: https://pubsub.googleapis.com
+  tags:
+  - Messaging
+  - Pub/Sub
+  - Event Streaming
+  - Queue
+  properties:
+  - type: Documentation
+    url: https://cloud.google.com/pubsub/docs/reference/rest
+  - type: OpenAPI
+    url: https://pubsub.googleapis.com/$discovery/rest?version=v1
+  - type: Authentication
+    url: https://cloud.google.com/pubsub/docs/authentication
+  - type: Pricing
+    url: https://cloud.google.com/pubsub/pricing
+  - type: Console
+    url: https://console.cloud.google.com/cloudpubsub
+- name: Google Cloud Vision API
+  description: Derive insights from images with machine learning
+  image: https://cloud.google.com/images/social-icon-google-cloud-1200-630.png
+  humanURL: https://cloud.google.com/vision
+  baseURL: https://vision.googleapis.com
+  tags:
+  - Machine Learning
+  - Computer Vision
+  - Image Analysis
+  - AI
+  properties:
+  - type: Documentation
+    url: https://cloud.google.com/vision/docs/reference/rest
+  - type: OpenAPI
+    url: https://vision.googleapis.com/$discovery/rest?version=v1
+  - type: Authentication
+    url: https://cloud.google.com/vision/docs/authentication
+  - type: Pricing
+    url: https://cloud.google.com/vision/pricing
+  - type: Console
+    url: https://console.cloud.google.com/apis/library/vision.googleapis.com
+- name: Google Cloud SQL Admin API
+  description: Manage Cloud SQL instances for MySQL, PostgreSQL, and SQL Server
+  image: https://cloud.google.com/images/social-icon-google-cloud-1200-630.png
+  humanURL: https://cloud.google.com/sql
+  baseURL: https://sqladmin.googleapis.com
+  tags:
+  - Database
+  - SQL
+  - MySQL
+  - PostgreSQL
+  properties:
+  - type: Documentation
+    url: https://cloud.google.com/sql/docs/mysql/admin-api
+  - type: OpenAPI
+    url: https://sqladmin.googleapis.com/$discovery/rest?version=v1
+  - type: Authentication
+    url: https://cloud.google.com/sql/docs/mysql/authentication
+  - type: Pricing
+    url: https://cloud.google.com/sql/pricing
+  - type: Console
+    url: https://console.cloud.google.com/sql
+common:
+- type: Portal
+  url: https://console.cloud.google.com
+- type: Documentation
+  url: https://cloud.google.com/docs
+- type: Getting Started
+  url: https://cloud.google.com/docs/get-started
+- type: Authentication
+  url: https://cloud.google.com/docs/authentication
+- type: SDKs
+  url: https://cloud.google.com/sdk
+- type: Status
+  url: https://status.cloud.google.com
+- type: Support
+  url: https://cloud.google.com/support
+- type: Pricing
+  url: https://cloud.google.com/pricing
+- type: Blog
+  url: https://cloud.google.com/blog
+- type: Terms of Service
+  url: https://cloud.google.com/terms
+maintainers:
+- name: Google Cloud Platform
+  email: cloud-platform@google.com
+  url: https://cloud.google.com
+tags:
+- Cloud Computing
+- Infrastructure
+- Platform as a Service
+- Machine Learning
+- Data Analytics
