@@ -1,15 +1,15 @@
 aid: google-cloud
 name: Google Cloud Platform
-description: Google Cloud Platform provides a comprehensive suite of cloud computing services including compute, storage, databases, machine learning, and networking capabilities.
+description: Google Cloud Platform provides a comprehensive suite of cloud computing services including
+  compute, storage, databases, machine learning, and networking capabilities.
 url: https://cloud.google.com/
 type: Index
 specificationVersion: '0.19'
 created: '2024-01-01'
-modified: '2026-04-28'
+modified: '2026-05-04'
 apis:
   - name: Google Compute Engine API
-    description: >-
-      Create and manage virtual machines on Google's infrastructure.
+    description: Create and manage virtual machines on Google's infrastructure.
     image: https://cloud.google.com/images/social-icon-google-cloud-1200-630.png
     humanURL: https://cloud.google.com/compute
     baseURL: https://compute.googleapis.com
@@ -30,8 +30,7 @@ apis:
       - type: Console
         url: https://console.cloud.google.com/compute
   - name: Google Cloud Storage API
-    description: >-
-      Object storage service for storing and accessing data on Google Cloud Platform.
+    description: Object storage service for storing and accessing data on Google Cloud Platform.
     image: https://cloud.google.com/images/social-icon-google-cloud-1200-630.png
     humanURL: https://cloud.google.com/storage
     baseURL: https://storage.googleapis.com
@@ -52,8 +51,7 @@ apis:
       - type: Console
         url: https://console.cloud.google.com/storage
   - name: Google Kubernetes Engine API
-    description: >-
-      Deploy, manage, and scale containerized applications using Kubernetes.
+    description: Deploy, manage, and scale containerized applications using Kubernetes.
     image: https://cloud.google.com/images/social-icon-google-cloud-1200-630.png
     humanURL: https://cloud.google.com/kubernetes-engine
     baseURL: https://container.googleapis.com
@@ -74,8 +72,7 @@ apis:
       - type: Console
         url: https://console.cloud.google.com/kubernetes
   - name: Google Cloud Functions API
-    description: >-
-      Event-driven serverless compute platform for building and connecting cloud services.
+    description: Event-driven serverless compute platform for building and connecting cloud services.
     image: https://cloud.google.com/images/social-icon-google-cloud-1200-630.png
     humanURL: https://cloud.google.com/functions
     baseURL: https://cloudfunctions.googleapis.com
@@ -96,8 +93,7 @@ apis:
       - type: Console
         url: https://console.cloud.google.com/functions
   - name: Google BigQuery API
-    description: >-
-      Serverless, highly scalable, and cost-effective data warehouse for analytics.
+    description: Serverless, highly scalable, and cost-effective data warehouse for analytics.
     image: https://cloud.google.com/images/social-icon-google-cloud-1200-630.png
     humanURL: https://cloud.google.com/bigquery
     baseURL: https://bigquery.googleapis.com
@@ -118,8 +114,7 @@ apis:
       - type: Console
         url: https://console.cloud.google.com/bigquery
   - name: Google Cloud Pub/Sub API
-    description: >-
-      Messaging and ingestion service for event-driven systems and streaming analytics.
+    description: Messaging and ingestion service for event-driven systems and streaming analytics.
     image: https://cloud.google.com/images/social-icon-google-cloud-1200-630.png
     humanURL: https://cloud.google.com/pubsub
     baseURL: https://pubsub.googleapis.com
@@ -140,8 +135,7 @@ apis:
       - type: Console
         url: https://console.cloud.google.com/cloudpubsub
   - name: Google Cloud Vision API
-    description: >-
-      Derive insights from images with machine learning.
+    description: Derive insights from images with machine learning.
     image: https://cloud.google.com/images/social-icon-google-cloud-1200-630.png
     humanURL: https://cloud.google.com/vision
     baseURL: https://vision.googleapis.com
@@ -162,8 +156,7 @@ apis:
       - type: Console
         url: https://console.cloud.google.com/apis/library/vision.googleapis.com
   - name: Google Cloud SQL Admin API
-    description: >-
-      Manage Cloud SQL instances for MySQL, PostgreSQL, and SQL Server.
+    description: Manage Cloud SQL instances for MySQL, PostgreSQL, and SQL Server.
     image: https://cloud.google.com/images/social-icon-google-cloud-1200-630.png
     humanURL: https://cloud.google.com/sql
     baseURL: https://sqladmin.googleapis.com
@@ -210,6 +203,50 @@ common:
     url: https://console.cloud.google.com/freetrial
   - type: Login
     url: https://console.cloud.google.com/
+  - type: Features
+    data:
+      - 'Google Cloud: hundreds of services across Cloud Infrastructure'
+      - 'Detailed pricing: see https://cloud.google.com/pricing'
+      - 'Service: Compute Engine'
+      - 'Service: Cloud Storage'
+      - 'Service: Cloud SQL'
+      - 'Service: Spanner'
+      - 'Service: Firestore'
+      - 'Service: BigQuery'
+      - 'Service: Bigtable'
+      - 'Service: Cloud Functions (Gen 2)'
+      - 'Service: Cloud Run'
+      - 'Service: GKE (Kubernetes)'
+      - 'Service: Cloud Load Balancing'
+      - 'Service: Cloud CDN'
+      - 'Service: Cloud DNS'
+      - 'Service: VPC'
+      - 'Service: IAM'
+      - 'Service: Cloud KMS'
+      - 'Service: Secret Manager'
+      - 'Service: Cloud Monitoring'
+      - 'Service: Cloud Logging'
+      - 'Service: Cloud Trace'
+      - 'Service: Vertex AI / Gemini API'
+      - 'Service: Cloud Translation'
+      - 'Service: Speech-to-Text'
+      - 'Service: Text-to-Speech'
+      - 'Service: Vision AI'
+      - 'Service: Natural Language AI'
+      - 'Service: Document AI'
+      - 'Service: Maps Platform'
+      - 'Service: Apigee (API management)'
+      - 'Service: Pub/Sub'
+      - 'Service: Dataflow'
+      - 'Service: Dataproc'
+      - 'Service: Composer (Airflow)'
+      - 'Service: Looker (BI)'
+      - 'Service: Cloud Build'
+      - 'Service: Artifact Registry'
+    sources:
+      - https://cloud.google.com/pricing
+      - https://focus.finops.org/
+    updated: '2026-05-04'
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
