@@ -247,6 +247,10 @@ common:
       - https://cloud.google.com/pricing
       - https://focus.finops.org/
     updated: '2026-05-04'
+  - type: Integrations
+    url: https://cloud.google.com/marketplace
+integrations:
+  - name: Become a Partner
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
