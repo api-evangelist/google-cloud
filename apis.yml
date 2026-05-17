@@ -181,13 +181,13 @@ common:
     url: https://console.cloud.google.com
   - type: Documentation
     url: https://cloud.google.com/docs
-  - type: Getting Started
+  - type: GettingStarted
     url: https://cloud.google.com/docs/get-started
   - type: Authentication
     url: https://cloud.google.com/docs/authentication
   - type: SDKs
     url: https://cloud.google.com/sdk
-  - type: Status
+  - type: StatusPage
     url: https://status.cloud.google.com
   - type: Support
     url: https://cloud.google.com/support
@@ -195,11 +195,11 @@ common:
     url: https://cloud.google.com/pricing
   - type: Blog
     url: https://cloud.google.com/blog
-  - type: Terms of Service
+  - type: TermsOfService
     url: https://cloud.google.com/terms
-  - type: Privacy Policy
+  - type: PrivacyPolicy
     url: https://policies.google.com/privacy
-  - type: Sign Up
+  - type: SignUp
     url: https://console.cloud.google.com/freetrial
   - type: Login
     url: https://console.cloud.google.com/
