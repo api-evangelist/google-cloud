@@ -177,6 +177,10 @@ apis:
       - type: Console
         url: https://console.cloud.google.com/sql
 common:
+  - type: GitHubOrganization
+    url: https://github.com/GoogleCloudPlatform
+  - type: LinkedIn
+    url: https://www.linkedin.com/showcase/google-cloud
   - type: Portal
     url: https://console.cloud.google.com
   - type: Documentation
