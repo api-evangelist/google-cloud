@@ -199,6 +199,10 @@ common:
     url: https://cloud.google.com/pricing
   - type: Blog
     url: https://cloud.google.com/blog
+  - type: BlogRSS
+    url: https://cloudblog.withgoogle.com/rss/
+  - type: BlogRSS
+    url: https://cloudblog.withgoogle.com/products/ai-machine-learning/rss/
   - type: TermsOfService
     url: https://cloud.google.com/terms
   - type: PrivacyPolicy
