@@ -1,0 +1,1599 @@
+"""
+Google Cloud Platform - Conceptual GraphQL Schema
+Covers major GCP service domains: Compute, Storage, Databases, Kubernetes,
+Serverless, Big Data, AI/ML, Security, DevOps, Networking, and Observability.
+GCP's native interface is REST (googleapis); this schema models GCP resources
+as a GraphQL layer suitable for federation or developer portal use.
+Reference: https://cloud.google.com/apis | https://github.com/googleapis
+"""
+
+scalar DateTime
+scalar JSON
+scalar Long
+
+# ---------------------------------------------------------------------------
+# Shared / Enumerations
+# ---------------------------------------------------------------------------
+
+enum ResourceStatus {
+  RUNNING
+  STOPPED
+  PENDING
+  TERMINATED
+  DELETING
+  PROVISIONING
+  STAGING
+  REPAIRING
+  UNKNOWN
+}
+
+enum Region {
+  US_CENTRAL1
+  US_EAST1
+  US_EAST4
+  US_WEST1
+  US_WEST2
+  US_WEST3
+  US_WEST4
+  EUROPE_WEST1
+  EUROPE_WEST2
+  EUROPE_WEST3
+  EUROPE_WEST4
+  EUROPE_NORTH1
+  ASIA_EAST1
+  ASIA_EAST2
+  ASIA_NORTHEAST1
+  ASIA_SOUTHEAST1
+  SOUTHAMERICA_EAST1
+  AUSTRALIA_SOUTHEAST1
+}
+
+# ---------------------------------------------------------------------------
+# COMPUTE ENGINE
+# ---------------------------------------------------------------------------
+
+"""A virtual machine instance running on Google Compute Engine."""
+type Instance {
+  id: ID!
+  name: String!
+  description: String
+  status: ResourceStatus!
+  zone: String!
+  region: Region!
+  machineType: MachineType
+  network: Network
+  subnet: Subnet
+  disks: [Disk!]
+  tags: [String!]
+  labels: JSON
+  externalIp: String
+  internalIp: String
+  serviceAccount: ServiceAccount
+  creationTimestamp: DateTime!
+  lastStartTimestamp: DateTime
+  cpuPlatform: String
+  canIpForward: Boolean
+  deletionProtection: Boolean
+  selfLink: String
+}
+
+"""Hardware configuration profile available on Compute Engine."""
+type MachineType {
+  id: ID!
+  name: String!
+  description: String
+  guestCpus: Int!
+  memoryMb: Int!
+  zone: String
+  isSharedCpu: Boolean
+  accelerators: [AcceleratorConfig!]
+  selfLink: String
+}
+
+"""GPU/TPU accelerator configuration attached to a machine type."""
+type AcceleratorConfig {
+  acceleratorType: String!
+  acceleratorCount: Int!
+}
+
+"""Virtual Private Cloud network resource."""
+type Network {
+  id: ID!
+  name: String!
+  description: String
+  autoCreateSubnetworks: Boolean
+  subnetworks: [Subnet!]
+  peerings: [NetworkPeering!]
+  routingConfig: String
+  mtu: Int
+  creationTimestamp: DateTime!
+  selfLink: String
+}
+
+"""Subnet within a VPC network."""
+type Subnet {
+  id: ID!
+  name: String!
+  description: String
+  network: Network
+  region: Region!
+  ipCidrRange: String!
+  gatewayAddress: String
+  privateIpGoogleAccess: Boolean
+  secondaryIpRanges: [SecondaryIpRange!]
+  creationTimestamp: DateTime!
+  selfLink: String
+}
+
+"""Secondary IP range on a subnet."""
+type SecondaryIpRange {
+  rangeName: String!
+  ipCidrRange: String!
+}
+
+"""VPC network peering connection."""
+type NetworkPeering {
+  name: String!
+  network: String!
+  state: String
+  stateDetails: String
+  exchangeSubnetRoutes: Boolean
+}
+
+"""Firewall rule controlling ingress or egress traffic on a network."""
+type Firewall {
+  id: ID!
+  name: String!
+  description: String
+  network: Network
+  priority: Int
+  direction: String
+  allowed: [FirewallRule!]
+  denied: [FirewallRule!]
+  sourceRanges: [String!]
+  destinationRanges: [String!]
+  sourceTags: [String!]
+  targetTags: [String!]
+  disabled: Boolean
+  creationTimestamp: DateTime!
+  selfLink: String
+}
+
+"""Individual allow/deny rule within a Firewall resource."""
+type FirewallRule {
+  ipProtocol: String!
+  ports: [String!]
+}
+
+"""Cloud Load Balancer forwarding rule."""
+type LoadBalancer {
+  id: ID!
+  name: String!
+  description: String
+  region: Region
+  ipAddress: String
+  ipProtocol: String
+  portRange: String
+  target: String
+  loadBalancingScheme: String
+  backendService: BackendService
+  creationTimestamp: DateTime!
+  selfLink: String
+}
+
+"""Backend service defining how traffic is distributed across backends."""
+type BackendService {
+  id: ID!
+  name: String!
+  description: String
+  protocol: String
+  port: Int
+  portName: String
+  timeoutSec: Int
+  enableCDN: Boolean
+  loadBalancingScheme: String
+  backends: [Backend!]
+  healthChecks: [String!]
+  creationTimestamp: DateTime!
+  selfLink: String
+}
+
+"""Individual backend (instance group or NEG) within a BackendService."""
+type Backend {
+  group: String!
+  balancingMode: String
+  maxRate: Int
+  maxUtilization: Float
+  capacityScaler: Float
+}
+
+"""Managed or unmanaged group of Compute Engine instances."""
+type InstanceGroup {
+  id: ID!
+  name: String!
+  description: String
+  zone: String
+  region: Region
+  size: Int!
+  network: Network
+  subnet: Subnet
+  isManaged: Boolean
+  instanceTemplate: String
+  autoscaler: Autoscaler
+  namedPorts: [NamedPort!]
+  creationTimestamp: DateTime!
+  selfLink: String
+}
+
+"""Named port mapping for an InstanceGroup."""
+type NamedPort {
+  name: String!
+  port: Int!
+}
+
+"""Autoscaler policy for a managed instance group."""
+type Autoscaler {
+  id: ID!
+  name: String!
+  description: String
+  target: String!
+  minNumReplicas: Int
+  maxNumReplicas: Int!
+  coolDownPeriodSec: Int
+  cpuUtilizationTarget: Float
+  status: String
+  zone: String
+  creationTimestamp: DateTime!
+  selfLink: String
+}
+
+"""Persistent disk attached to a Compute Engine instance."""
+type Disk {
+  id: ID!
+  name: String!
+  description: String
+  status: ResourceStatus!
+  zone: String!
+  sizeGb: Long!
+  type: String
+  sourceImage: String
+  sourceSnapshot: Snapshot
+  users: [String!]
+  labels: JSON
+  creationTimestamp: DateTime!
+  selfLink: String
+}
+
+"""Point-in-time snapshot of a persistent disk."""
+type Snapshot {
+  id: ID!
+  name: String!
+  description: String
+  status: String!
+  sourceDisk: String
+  diskSizeGb: Long!
+  storageBytes: Long
+  labels: JSON
+  creationTimestamp: DateTime!
+  selfLink: String
+}
+
+"""Compute Engine image used to create disks or instances."""
+type Image {
+  id: ID!
+  name: String!
+  description: String
+  status: String!
+  family: String
+  diskSizeGb: Long
+  sourceType: String
+  licenses: [String!]
+  labels: JSON
+  creationTimestamp: DateTime!
+  selfLink: String
+}
+
+# ---------------------------------------------------------------------------
+# CLOUD STORAGE
+# ---------------------------------------------------------------------------
+
+"""Cloud Storage bucket."""
+type Bucket {
+  id: ID!
+  name: String!
+  location: String!
+  storageClass: StorageClass!
+  versioning: Boolean
+  publicAccessPrevention: String
+  uniformBucketLevelAccess: Boolean
+  labels: JSON
+  objects: [BucketObject!]
+  retentionPolicy: RetentionPolicy
+  lifecycle: JSON
+  cors: JSON
+  timeCreated: DateTime!
+  updated: DateTime!
+  selfLink: String
+}
+
+"""Object stored in a Cloud Storage bucket."""
+type BucketObject {
+  id: ID!
+  name: String!
+  bucket: Bucket!
+  contentType: String
+  size: Long!
+  storageClass: StorageClass!
+  etag: String
+  md5Hash: String
+  crc32c: String
+  generation: String
+  metageneration: String
+  timeCreated: DateTime!
+  updated: DateTime!
+  selfLink: String
+  mediaLink: String
+}
+
+"""Retention policy applied to objects in a bucket."""
+type RetentionPolicy {
+  retentionPeriod: Long!
+  effectiveTime: DateTime
+  isLocked: Boolean
+}
+
+"""Storage class determining cost and availability trade-offs."""
+enum StorageClass {
+  STANDARD
+  NEARLINE
+  COLDLINE
+  ARCHIVE
+  MULTI_REGIONAL
+  REGIONAL
+}
+
+"""Storage Transfer Service job moving data between buckets or from external sources."""
+type Transfer {
+  id: ID!
+  name: String!
+  description: String
+  status: String!
+  projectId: String!
+  sourceUri: String
+  destinationBucket: Bucket
+  schedule: JSON
+  lastModificationTime: DateTime
+  creationTime: DateTime!
+}
+
+"""Cloud Storage backup configuration."""
+type Backup {
+  id: ID!
+  name: String!
+  sourceBucket: Bucket
+  destinationBucket: Bucket
+  status: String!
+  creationTimestamp: DateTime!
+}
+
+# ---------------------------------------------------------------------------
+# DATABASES
+# ---------------------------------------------------------------------------
+
+"""Cloud SQL managed relational database instance."""
+type CloudSQLInstance {
+  id: ID!
+  name: String!
+  project: String!
+  region: Region!
+  databaseVersion: String!
+  state: ResourceStatus!
+  ipAddresses: [String!]
+  tier: String
+  dataDiskSizeGb: Long
+  backupEnabled: Boolean
+  highAvailabilityEnabled: Boolean
+  labels: JSON
+  databases: [CloudSQL!]
+  creationTime: DateTime!
+  selfLink: String
+}
+
+"""Individual database within a Cloud SQL instance."""
+type CloudSQL {
+  id: ID!
+  name: String!
+  instance: CloudSQLInstance!
+  charset: String
+  collation: String
+  etag: String
+  selfLink: String
+}
+
+"""Cloud Spanner globally distributed relational database instance."""
+type Spanner {
+  id: ID!
+  name: String!
+  displayName: String!
+  config: String!
+  nodeCount: Int
+  processingUnits: Int
+  state: ResourceStatus!
+  labels: JSON
+  databases: [SpannerDatabase!]
+  creationTime: DateTime!
+}
+
+"""Individual database within a Cloud Spanner instance."""
+type SpannerDatabase {
+  id: ID!
+  name: String!
+  instance: Spanner!
+  state: String!
+  versionRetentionPeriod: String
+  earliestVersionTime: DateTime
+  encryptionConfig: JSON
+  createTime: DateTime!
+  restoreInfo: JSON
+}
+
+"""Cloud Bigtable NoSQL wide-column store instance."""
+type Bigtable {
+  id: ID!
+  name: String!
+  displayName: String!
+  state: ResourceStatus!
+  type: String
+  labels: JSON
+  clusters: [BigtableCluster!]
+  createTime: DateTime!
+}
+
+"""Bigtable cluster within a Bigtable instance."""
+type BigtableCluster {
+  name: String!
+  location: String!
+  state: String!
+  serveNodes: Int!
+  storageType: String
+}
+
+"""Cloud Firestore NoSQL document database."""
+type Firestore {
+  id: ID!
+  name: String!
+  locationId: String!
+  type: String
+  concurrencyMode: String
+  appEngineIntegrationMode: String
+  keyPrefix: String
+  etag: String
+  createTime: DateTime!
+  updateTime: DateTime!
+}
+
+"""Cloud Memorystore managed Redis or Memcached instance."""
+type MemoryStore {
+  id: ID!
+  name: String!
+  displayName: String
+  locationId: String!
+  tier: String!
+  memorySizeGb: Int!
+  state: ResourceStatus!
+  host: String
+  port: Int
+  redisVersion: String
+  labels: JSON
+  createTime: DateTime!
+}
+
+"""AlloyDB for PostgreSQL cluster."""
+type AlloyDB {
+  id: ID!
+  name: String!
+  displayName: String
+  cluster: String!
+  state: ResourceStatus!
+  databaseVersion: String
+  network: Network
+  primaryInstance: AlloyDBInstance
+  labels: JSON
+  createTime: DateTime!
+}
+
+"""Individual instance within an AlloyDB cluster."""
+type AlloyDBInstance {
+  id: ID!
+  name: String!
+  instanceType: String!
+  state: ResourceStatus!
+  ipAddress: String
+  cpuCount: Int
+  memorySizeGb: Int
+  createTime: DateTime!
+}
+
+# ---------------------------------------------------------------------------
+# KUBERNETES ENGINE
+# ---------------------------------------------------------------------------
+
+"""Google Kubernetes Engine cluster."""
+type GKECluster {
+  id: ID!
+  name: String!
+  description: String
+  location: String!
+  status: ResourceStatus!
+  endpoint: String
+  clusterIpv4Cidr: String
+  servicesIpv4Cidr: String
+  nodePools: [NodePool!]
+  network: Network
+  subnetwork: Subnet
+  currentMasterVersion: String
+  currentNodeVersion: String
+  loggingService: String
+  monitoringService: String
+  labels: JSON
+  createTime: DateTime!
+  selfLink: String
+}
+
+"""Node pool within a GKE cluster."""
+type NodePool {
+  id: ID!
+  name: String!
+  cluster: GKECluster!
+  status: ResourceStatus!
+  initialNodeCount: Int!
+  machineType: String
+  diskSizeGb: Int
+  diskType: String
+  preemptible: Boolean
+  spot: Boolean
+  autoscaling: NodePoolAutoscaling
+  locations: [String!]
+  version: String
+  nodes: [KubernetesNode!]
+  createTime: DateTime!
+}
+
+"""Autoscaling configuration for a node pool."""
+type NodePoolAutoscaling {
+  enabled: Boolean!
+  minNodeCount: Int
+  maxNodeCount: Int
+  autoprovisioned: Boolean
+}
+
+"""Individual Kubernetes worker node within a node pool."""
+type KubernetesNode {
+  id: ID!
+  name: String!
+  nodePool: NodePool!
+  status: String!
+  zone: String
+  cpuCapacity: String
+  memoryCapacity: String
+  podCidr: String
+  instance: Instance
+  conditions: [NodeCondition!]
+  creationTimestamp: DateTime!
+}
+
+"""Condition observed on a Kubernetes node."""
+type NodeCondition {
+  type: String!
+  status: String!
+  lastHeartbeatTime: DateTime
+  message: String
+}
+
+# ---------------------------------------------------------------------------
+# SERVERLESS
+# ---------------------------------------------------------------------------
+
+"""Cloud Functions (Gen 1 or Gen 2) event-driven function."""
+type CloudFunction {
+  id: ID!
+  name: String!
+  description: String
+  status: ResourceStatus!
+  region: Region!
+  runtime: String!
+  entryPoint: String!
+  sourceArchiveUrl: String
+  sourceRepository: String
+  httpsTriggerUrl: String
+  eventTrigger: JSON
+  availableMemoryMb: Int
+  timeout: String
+  serviceAccount: ServiceAccount
+  labels: JSON
+  buildId: String
+  versionId: Long
+  createTime: DateTime!
+  updateTime: DateTime!
+}
+
+"""Cloud Run managed container service."""
+type CloudRun {
+  id: ID!
+  name: String!
+  description: String
+  status: ResourceStatus!
+  region: Region!
+  url: String
+  image: String!
+  containerConcurrency: Int
+  timeoutSeconds: Int
+  minInstances: Int
+  maxInstances: Int
+  cpu: String
+  memory: String
+  serviceAccount: ServiceAccount
+  ingressSettings: String
+  labels: JSON
+  annotations: JSON
+  createTime: DateTime!
+  updateTime: DateTime!
+}
+
+"""Cloud Run Job for batch workloads."""
+type CloudRunJob {
+  id: ID!
+  name: String!
+  region: Region!
+  image: String!
+  cpu: String
+  memory: String
+  parallelism: Int
+  taskCount: Int
+  maxRetries: Int
+  timeoutSeconds: Int
+  serviceAccount: ServiceAccount
+  lastExecutionName: String
+  labels: JSON
+  createTime: DateTime!
+  updateTime: DateTime!
+}
+
+# ---------------------------------------------------------------------------
+# BIG DATA
+# ---------------------------------------------------------------------------
+
+"""BigQuery dataset grouping tables and views."""
+type BigQueryDataset {
+  id: ID!
+  datasetId: String!
+  projectId: String!
+  friendlyName: String
+  description: String
+  location: String!
+  defaultTableExpirationMs: Long
+  labels: JSON
+  tables: [BigQueryTable!]
+  creationTime: DateTime!
+  lastModifiedTime: DateTime!
+  selfLink: String
+}
+
+"""BigQuery table holding structured data."""
+type BigQueryTable {
+  id: ID!
+  tableId: String!
+  dataset: BigQueryDataset!
+  friendlyName: String
+  description: String
+  schema: JSON
+  numBytes: Long
+  numRows: Long
+  tableType: String
+  timePartitioning: JSON
+  rangePartitioning: JSON
+  clustering: JSON
+  expirationTime: DateTime
+  labels: JSON
+  creationTime: DateTime!
+  lastModifiedTime: DateTime!
+  selfLink: String
+}
+
+"""BigQuery query or load/export job."""
+type BigQueryJob {
+  id: ID!
+  jobId: String!
+  projectId: String!
+  location: String
+  status: String!
+  jobType: String!
+  query: String
+  destinationTable: BigQueryTable
+  bytesProcessed: Long
+  bytesShuffled: Long
+  slotMs: Long
+  creationTime: DateTime!
+  startTime: DateTime
+  endTime: DateTime
+  selfLink: String
+}
+
+"""Dataflow managed streaming or batch data pipeline job."""
+type DataflowJob {
+  id: ID!
+  name: String!
+  projectId: String!
+  location: Region!
+  type: String!
+  currentState: String!
+  pipelineDescription: String
+  stepsLocation: String
+  workerCount: Int
+  labels: JSON
+  createTime: DateTime!
+  startTime: DateTime
+}
+
+"""Cloud Pub/Sub topic for message publishing."""
+type PubSubTopic {
+  id: ID!
+  name: String!
+  projectId: String!
+  kmsKeyName: String
+  labels: JSON
+  messageRetentionDuration: String
+  subscriptions: [PubSubSubscription!]
+}
+
+"""Cloud Pub/Sub subscription consuming messages from a topic."""
+type PubSubSubscription {
+  id: ID!
+  name: String!
+  topic: PubSubTopic!
+  projectId: String!
+  pushConfig: JSON
+  ackDeadlineSeconds: Int!
+  retainAckedMessages: Boolean
+  messageRetentionDuration: String
+  labels: JSON
+  enableMessageOrdering: Boolean
+  deadLetterPolicy: JSON
+  retryPolicy: JSON
+}
+
+"""Cloud Dataproc managed Apache Spark/Hadoop cluster."""
+type DataprocCluster {
+  id: ID!
+  clusterName: String!
+  projectId: String!
+  region: Region!
+  status: ResourceStatus!
+  masterConfig: JSON
+  workerConfig: JSON
+  softwareConfig: JSON
+  labels: JSON
+  metrics: JSON
+  createTime: DateTime!
+  updateTime: DateTime
+}
+
+# ---------------------------------------------------------------------------
+# AI / ML — VERTEX AI
+# ---------------------------------------------------------------------------
+
+"""Vertex AI endpoint serving a deployed model."""
+type VertexAIEndpoint {
+  id: ID!
+  name: String!
+  displayName: String!
+  description: String
+  location: Region!
+  deployedModels: [DeployedModel!]
+  trafficSplit: JSON
+  etag: String
+  labels: JSON
+  createTime: DateTime!
+  updateTime: DateTime!
+}
+
+"""Model deployed to a Vertex AI endpoint."""
+type DeployedModel {
+  id: ID!
+  model: String!
+  displayName: String
+  dedicatedResources: JSON
+  automaticResources: JSON
+  serviceAccount: ServiceAccount
+  enableAccessLogging: Boolean
+  createTime: DateTime!
+}
+
+"""Vertex AI AutoML or custom-trained model."""
+type AutoMLModel {
+  id: ID!
+  name: String!
+  displayName: String!
+  description: String
+  versionId: String
+  versionAliases: [String!]
+  metadataSchemaUri: String
+  trainingPipeline: String
+  labels: JSON
+  etag: String
+  createTime: DateTime!
+  updateTime: DateTime!
+}
+
+"""Vertex AI model training pipeline job."""
+type TrainingJob {
+  id: ID!
+  name: String!
+  displayName: String!
+  state: String!
+  error: String
+  startTime: DateTime
+  endTime: DateTime
+  updateTime: DateTime!
+  createTime: DateTime!
+  labels: JSON
+}
+
+"""Online prediction request result from a Vertex AI endpoint."""
+type Prediction {
+  id: ID!
+  endpoint: VertexAIEndpoint!
+  instances: JSON!
+  parameters: JSON
+  predictions: JSON
+  deployedModelId: String
+  model: String
+  modelVersionId: String
+}
+
+"""Batch prediction job processing large volumes of inputs."""
+type BatchPrediction {
+  id: ID!
+  name: String!
+  displayName: String!
+  model: String!
+  state: String!
+  inputConfig: JSON
+  outputConfig: JSON
+  instancesFormat: String
+  predictionsFormat: String
+  error: String
+  labels: JSON
+  createTime: DateTime!
+  startTime: DateTime
+  endTime: DateTime
+  updateTime: DateTime!
+}
+
+"""Text embedding result from a Vertex AI text-embedding model."""
+type TextEmbedding {
+  id: ID!
+  model: String!
+  content: String!
+  taskType: String
+  values: [Float!]!
+  statistics: TextEmbeddingStatistics
+}
+
+"""Token count statistics for a text embedding."""
+type TextEmbeddingStatistics {
+  tokenCount: Int!
+  truncated: Boolean!
+}
+
+# ---------------------------------------------------------------------------
+# SECURITY & IAM
+# ---------------------------------------------------------------------------
+
+"""IAM policy binding members to roles on a GCP resource."""
+type IAMPolicy {
+  id: ID!
+  resource: String!
+  version: Int
+  bindings: [IAMBinding!]!
+  etag: String
+}
+
+"""Single role binding within an IAM policy."""
+type IAMBinding {
+  role: String!
+  members: [String!]!
+  condition: IAMCondition
+}
+
+"""CEL-based condition on an IAM binding."""
+type IAMCondition {
+  title: String
+  description: String
+  expression: String!
+}
+
+"""GCP service account representing a non-human identity."""
+type ServiceAccount {
+  id: ID!
+  name: String!
+  projectId: String!
+  uniqueId: String!
+  email: String!
+  displayName: String
+  description: String
+  disabled: Boolean
+  oauth2ClientId: String
+  etag: String
+}
+
+"""Cloud KMS cryptographic key."""
+type KMSKey {
+  id: ID!
+  name: String!
+  keyRing: String!
+  purpose: String!
+  algorithm: String
+  protectionLevel: String
+  state: String!
+  labels: JSON
+  rotationPeriod: String
+  nextRotationTime: DateTime
+  createTime: DateTime!
+  destroyScheduledDuration: String
+}
+
+"""Secret Manager secret storing sensitive configuration data."""
+type SecretManagerSecret {
+  id: ID!
+  name: String!
+  projectId: String!
+  replication: JSON
+  labels: JSON
+  createTime: DateTime!
+  etag: String
+  versions: [SecretVersion!]
+}
+
+"""Version of a Secret Manager secret."""
+type SecretVersion {
+  id: ID!
+  name: String!
+  state: String!
+  createTime: DateTime!
+  destroyTime: DateTime
+  etag: String
+}
+
+"""Cloud Armor security policy protecting load balancers from attacks."""
+type CloudArmor {
+  id: ID!
+  name: String!
+  description: String
+  type: String
+  rules: [CloudArmorRule!]
+  adaptiveProtectionConfig: JSON
+  advancedOptionsConfig: JSON
+  fingerprint: String
+  selfLink: String
+}
+
+"""Single rule within a Cloud Armor security policy."""
+type CloudArmorRule {
+  priority: Int!
+  action: String!
+  match: JSON!
+  description: String
+  preview: Boolean
+}
+
+"""VPC Service Controls access policy restricting API access by perimeter."""
+type AccessPolicy {
+  id: ID!
+  name: String!
+  parent: String!
+  title: String!
+  scopes: [String!]
+  etag: String
+  createTime: DateTime!
+  updateTime: DateTime!
+}
+
+# ---------------------------------------------------------------------------
+# DEVOPS
+# ---------------------------------------------------------------------------
+
+"""Cloud Build trigger that kicks off a build on source changes or manual request."""
+type CloudBuild {
+  id: ID!
+  name: String!
+  description: String
+  projectId: String!
+  status: String!
+  source: JSON
+  steps: [BuildStep!]
+  logUrl: String
+  logsBucket: String
+  options: JSON
+  substitutions: JSON
+  tags: [String!]
+  serviceAccount: ServiceAccount
+  createTime: DateTime!
+  startTime: DateTime
+  finishTime: DateTime
+}
+
+"""Individual build step within a Cloud Build pipeline."""
+type BuildStep {
+  name: String!
+  args: [String!]
+  env: [String!]
+  dir: String
+  id: String
+  waitFor: [String!]
+  entrypoint: String
+  secretEnv: [String!]
+  status: String
+}
+
+"""Artifact Registry repository for storing containers and packages."""
+type ArtifactRegistry {
+  id: ID!
+  name: String!
+  format: String!
+  description: String
+  location: String!
+  mode: String
+  sizeBytes: Long
+  labels: JSON
+  kmsKeyName: String
+  createTime: DateTime!
+  updateTime: DateTime!
+}
+
+"""Container image stored in Artifact Registry or Container Registry."""
+type Container {
+  id: ID!
+  name: String!
+  registry: ArtifactRegistry
+  digest: String!
+  tags: [String!]
+  mediaType: String
+  sizeBytes: Long
+  uploadTime: DateTime!
+  updateTime: DateTime!
+}
+
+"""Cloud Deploy delivery pipeline managing rollouts across environments."""
+type CloudDeploy {
+  id: ID!
+  name: String!
+  displayName: String
+  description: String
+  projectId: String!
+  location: Region!
+  stages: [DeployStage!]
+  labels: JSON
+  etag: String
+  suspended: Boolean
+  createTime: DateTime!
+  updateTime: DateTime!
+}
+
+"""Individual stage in a Cloud Deploy pipeline."""
+type DeployStage {
+  targetId: String!
+  profiles: [String!]
+  strategy: JSON
+}
+
+"""Cloud Source Repository managed Git repository."""
+type SourceRepo {
+  id: ID!
+  name: String!
+  url: String
+  mirrorConfig: JSON
+  pubsubConfigs: JSON
+  size: Long
+}
+
+# ---------------------------------------------------------------------------
+# NETWORKING
+# ---------------------------------------------------------------------------
+
+"""Cloud DNS managed zone hosting DNS records for a domain."""
+type DNS {
+  id: ID!
+  name: String!
+  dnsName: String!
+  description: String
+  visibility: String
+  dnssecConfig: JSON
+  labels: JSON
+  creationTime: DateTime!
+  nameServers: [String!]
+}
+
+"""Cloud CDN configuration attached to a backend service."""
+type CDN {
+  id: ID!
+  name: String!
+  backendService: BackendService
+  cacheMode: String
+  defaultTtl: Int
+  maxTtl: Int
+  clientTtl: Int
+  negativeCaching: Boolean
+  signedUrlKeyNames: [String!]
+  enabled: Boolean!
+}
+
+"""Cloud NAT gateway enabling outbound internet access from private instances."""
+type CloudNAT {
+  id: ID!
+  name: String!
+  region: Region!
+  router: CloudRouter
+  natIpAllocateOption: String
+  natIps: [String!]
+  subnetworkIpRangesToNat: JSON
+  minPortsPerVm: Int
+  enableEndpointIndependentMapping: Boolean
+}
+
+"""VPN gateway for encrypted connectivity between GCP and on-premises networks."""
+type VPN {
+  id: ID!
+  name: String!
+  description: String
+  region: Region!
+  network: Network
+  vpnInterfaces: [VPNInterface!]
+  stackType: String
+  selfLink: String
+}
+
+"""Network interface on a VPN gateway."""
+type VPNInterface {
+  id: Int!
+  ipAddress: String
+  linkedInterconnectAttachment: String
+  linkedVpnTunnel: String
+}
+
+"""Dedicated Interconnect attachment connecting on-premises to GCP."""
+type Interconnect {
+  id: ID!
+  name: String!
+  description: String
+  type: String!
+  location: String!
+  linkType: String
+  requestedLinkCount: Int
+  provisionedLinkCount: Int
+  interconnectAttachments: [InterconnectAttachment!]
+  state: String!
+  googleIpAddress: String
+  selfLink: String
+}
+
+"""VLAN attachment on a Dedicated or Partner Interconnect."""
+type InterconnectAttachment {
+  id: ID!
+  name: String!
+  description: String
+  region: Region!
+  router: CloudRouter
+  interconnect: Interconnect
+  bandwidth: String
+  vlanTag8021q: Int
+  cloudRouterIpAddress: String
+  customerRouterIpAddress: String
+  state: String!
+  selfLink: String
+}
+
+"""Cloud Router for dynamic BGP routing within a VPC."""
+type CloudRouter {
+  id: ID!
+  name: String!
+  description: String
+  region: Region!
+  network: Network
+  bgp: JSON
+  bgpPeers: [BGPPeer!]
+  interfaces: [RouterInterface!]
+  selfLink: String
+}
+
+"""BGP peer configuration on a Cloud Router."""
+type BGPPeer {
+  name: String!
+  interfaceName: String
+  ipAddress: String
+  peerIpAddress: String
+  peerAsn: Int
+  advertisedRoutePriority: Int
+}
+
+"""Network interface on a Cloud Router."""
+type RouterInterface {
+  name: String!
+  linkedVpnTunnel: String
+  linkedInterconnectAttachment: String
+  ipRange: String
+}
+
+# ---------------------------------------------------------------------------
+# OBSERVABILITY — CLOUD MONITORING
+# ---------------------------------------------------------------------------
+
+"""Monitoring metric descriptor defining a measurement type."""
+type MetricDescriptor {
+  id: ID!
+  name: String!
+  type: String!
+  labels: [LabelDescriptor!]
+  metricKind: String!
+  valueType: String!
+  unit: String
+  description: String
+  displayName: String
+  monitoredResourceTypes: [String!]
+}
+
+"""Label descriptor for a metric or monitored resource."""
+type LabelDescriptor {
+  key: String!
+  valueType: String!
+  description: String
+}
+
+"""Point-in-time or range measurement for a metric."""
+type TimeSeries {
+  metric: String!
+  resource: String!
+  metricKind: String!
+  valueType: String!
+  points: [DataPoint!]!
+}
+
+"""Individual data point within a time series."""
+type DataPoint {
+  interval: TimeInterval!
+  value: Float!
+}
+
+"""Time interval for a monitoring data point."""
+type TimeInterval {
+  startTime: DateTime
+  endTime: DateTime!
+}
+
+"""Cloud Monitoring alerting policy triggering notifications on conditions."""
+type AlertPolicy {
+  id: ID!
+  name: String!
+  displayName: String!
+  documentation: JSON
+  conditions: [AlertCondition!]!
+  combiner: String!
+  enabled: Boolean
+  notificationChannels: [NotificationChannel!]
+  labels: JSON
+  validity: JSON
+  creationRecord: JSON
+  mutationRecord: JSON
+}
+
+"""Individual condition in an alerting policy."""
+type AlertCondition {
+  name: String!
+  displayName: String
+  conditionThreshold: JSON
+  conditionAbsent: JSON
+}
+
+"""Channel through which monitoring alerts are delivered."""
+type NotificationChannel {
+  id: ID!
+  name: String!
+  displayName: String
+  description: String
+  type: String!
+  labels: JSON
+  userLabels: JSON
+  enabled: Boolean
+  verificationStatus: String
+  creationRecord: JSON
+  mutationRecord: JSON
+}
+
+"""Cloud Monitoring custom dashboard."""
+type Dashboard {
+  id: ID!
+  name: String!
+  displayName: String!
+  etag: String
+  mosaicLayout: JSON
+  gridLayout: JSON
+  columnLayout: JSON
+}
+
+# ---------------------------------------------------------------------------
+# OBSERVABILITY — CLOUD LOGGING
+# ---------------------------------------------------------------------------
+
+"""Individual log entry written to Cloud Logging."""
+type LogEntry {
+  id: ID!
+  logName: String!
+  resource: JSON!
+  timestamp: DateTime
+  receiveTimestamp: DateTime
+  severity: String
+  insertId: String
+  httpRequest: JSON
+  labels: JSON
+  operation: JSON
+  trace: String
+  spanId: String
+  textPayload: String
+  jsonPayload: JSON
+  protoPayload: JSON
+}
+
+"""Cloud Logging log bucket retaining log entries."""
+type LogBucket {
+  id: ID!
+  name: String!
+  description: String
+  retentionDays: Int!
+  locked: Boolean
+  lifecycleState: String
+  restrictedFields: [String!]
+  createTime: DateTime!
+  updateTime: DateTime!
+}
+
+"""Cloud Logging sink exporting log entries to a destination."""
+type LogSink {
+  id: ID!
+  name: String!
+  destination: String!
+  filter: String
+  description: String
+  disabled: Boolean
+  writerIdentity: String
+  includeChildren: Boolean
+  createTime: DateTime!
+  updateTime: DateTime!
+}
+
+# ---------------------------------------------------------------------------
+# OBSERVABILITY — CLOUD TRACE
+# ---------------------------------------------------------------------------
+
+"""Cloud Trace distributed trace grouping spans for a single request."""
+type Trace {
+  projectId: String!
+  traceId: String!
+  spans: [Span!]!
+}
+
+"""Individual span within a Cloud Trace distributed trace."""
+type Span {
+  spanId: String!
+  name: String!
+  startTime: DateTime!
+  endTime: DateTime!
+  parentSpanId: String
+  labels: JSON
+  status: JSON
+  stackTrace: JSON
+  childSpanCount: Int
+}
+
+# ---------------------------------------------------------------------------
+# ROOT TYPES
+# ---------------------------------------------------------------------------
+
+type Query {
+  # Compute
+  instance(id: ID!): Instance
+  instances(project: String!, zone: String, status: ResourceStatus): [Instance!]
+  machineType(name: String!, zone: String!): MachineType
+  machineTypes(zone: String!): [MachineType!]
+  network(id: ID!): Network
+  networks(project: String!): [Network!]
+  subnet(id: ID!): Subnet
+  subnets(network: ID!): [Subnet!]
+  firewall(id: ID!): Firewall
+  firewalls(project: String!): [Firewall!]
+  loadBalancer(id: ID!): LoadBalancer
+  loadBalancers(project: String!, region: Region): [LoadBalancer!]
+  backendService(id: ID!): BackendService
+  instanceGroup(id: ID!): InstanceGroup
+  autoscaler(id: ID!): Autoscaler
+  disk(id: ID!): Disk
+  disks(project: String!, zone: String): [Disk!]
+  snapshot(id: ID!): Snapshot
+  snapshots(project: String!): [Snapshot!]
+  image(id: ID!): Image
+  images(project: String!, family: String): [Image!]
+
+  # Storage
+  bucket(name: String!): Bucket
+  buckets(project: String!): [Bucket!]
+  bucketObject(bucket: String!, name: String!): BucketObject
+  bucketObjects(bucket: String!, prefix: String): [BucketObject!]
+  transfer(id: ID!): Transfer
+  transfers(project: String!): [Transfer!]
+
+  # Databases
+  cloudSQLInstance(id: ID!): CloudSQLInstance
+  cloudSQLInstances(project: String!): [CloudSQLInstance!]
+  spanner(id: ID!): Spanner
+  spanners(project: String!): [Spanner!]
+  spannerDatabase(id: ID!): SpannerDatabase
+  bigtable(id: ID!): Bigtable
+  bigtables(project: String!): [Bigtable!]
+  firestore(id: ID!): Firestore
+  memoryStore(id: ID!): MemoryStore
+  memoryStores(project: String!, location: String): [MemoryStore!]
+  alloyDB(id: ID!): AlloyDB
+  alloyDBInstances(cluster: ID!): [AlloyDBInstance!]
+
+  # Kubernetes
+  gkeCluster(id: ID!): GKECluster
+  gkeClusters(project: String!, location: String): [GKECluster!]
+  nodePool(id: ID!): NodePool
+  nodePools(cluster: ID!): [NodePool!]
+  kubernetesNode(id: ID!): KubernetesNode
+
+  # Serverless
+  cloudFunction(id: ID!): CloudFunction
+  cloudFunctions(project: String!, region: Region): [CloudFunction!]
+  cloudRun(id: ID!): CloudRun
+  cloudRunServices(project: String!, region: Region): [CloudRun!]
+  cloudRunJob(id: ID!): CloudRunJob
+  cloudRunJobs(project: String!, region: Region): [CloudRunJob!]
+
+  # Big Data
+  bigQueryDataset(id: ID!): BigQueryDataset
+  bigQueryDatasets(project: String!): [BigQueryDataset!]
+  bigQueryTable(id: ID!): BigQueryTable
+  bigQueryTables(dataset: ID!): [BigQueryTable!]
+  bigQueryJob(id: ID!): BigQueryJob
+  bigQueryJobs(project: String!, location: String): [BigQueryJob!]
+  dataflowJob(id: ID!): DataflowJob
+  dataflowJobs(project: String!, location: Region): [DataflowJob!]
+  pubSubTopic(id: ID!): PubSubTopic
+  pubSubTopics(project: String!): [PubSubTopic!]
+  pubSubSubscription(id: ID!): PubSubSubscription
+  pubSubSubscriptions(project: String!, topic: ID): [PubSubSubscription!]
+  dataprocCluster(id: ID!): DataprocCluster
+  dataprocClusters(project: String!, region: Region): [DataprocCluster!]
+
+  # AI/ML
+  vertexAIEndpoint(id: ID!): VertexAIEndpoint
+  vertexAIEndpoints(project: String!, location: Region): [VertexAIEndpoint!]
+  autoMLModel(id: ID!): AutoMLModel
+  autoMLModels(project: String!, location: Region): [AutoMLModel!]
+  trainingJob(id: ID!): TrainingJob
+  trainingJobs(project: String!, location: Region): [TrainingJob!]
+  batchPrediction(id: ID!): BatchPrediction
+  batchPredictions(project: String!, location: Region): [BatchPrediction!]
+
+  # Security
+  iamPolicy(resource: String!): IAMPolicy
+  serviceAccount(id: ID!): ServiceAccount
+  serviceAccounts(project: String!): [ServiceAccount!]
+  kmsKey(id: ID!): KMSKey
+  kmsKeys(keyRing: String!): [KMSKey!]
+  secretManagerSecret(id: ID!): SecretManagerSecret
+  secretManagerSecrets(project: String!): [SecretManagerSecret!]
+  cloudArmor(id: ID!): CloudArmor
+  cloudArmorPolicies(project: String!): [CloudArmor!]
+  accessPolicy(id: ID!): AccessPolicy
+  accessPolicies(parent: String!): [AccessPolicy!]
+
+  # DevOps
+  cloudBuild(id: ID!): CloudBuild
+  cloudBuilds(project: String!, status: String): [CloudBuild!]
+  artifactRegistry(id: ID!): ArtifactRegistry
+  artifactRegistries(project: String!, location: String): [ArtifactRegistry!]
+  container(id: ID!): Container
+  cloudDeploy(id: ID!): CloudDeploy
+  cloudDeployPipelines(project: String!, location: Region): [CloudDeploy!]
+  sourceRepo(id: ID!): SourceRepo
+  sourceRepos(project: String!): [SourceRepo!]
+
+  # Networking
+  dns(id: ID!): DNS
+  dnsZones(project: String!): [DNS!]
+  cdn(id: ID!): CDN
+  cloudNAT(id: ID!): CloudNAT
+  vpn(id: ID!): VPN
+  vpns(project: String!, region: Region): [VPN!]
+  interconnect(id: ID!): Interconnect
+  interconnects(project: String!): [Interconnect!]
+  cloudRouter(id: ID!): CloudRouter
+  cloudRouters(project: String!, region: Region): [CloudRouter!]
+
+  # Observability
+  metricDescriptor(name: String!): MetricDescriptor
+  metricDescriptors(project: String!, filter: String): [MetricDescriptor!]
+  timeSeries(project: String!, filter: String!, interval: String!): [TimeSeries!]
+  alertPolicy(id: ID!): AlertPolicy
+  alertPolicies(project: String!): [AlertPolicy!]
+  notificationChannel(id: ID!): NotificationChannel
+  notificationChannels(project: String!): [NotificationChannel!]
+  dashboard(id: ID!): Dashboard
+  dashboards(project: String!): [Dashboard!]
+  logEntries(project: String!, filter: String, pageSize: Int): [LogEntry!]
+  logBucket(id: ID!): LogBucket
+  logBuckets(project: String!): [LogBucket!]
+  logSink(id: ID!): LogSink
+  logSinks(project: String!): [LogSink!]
+  trace(projectId: String!, traceId: String!): Trace
+  traces(projectId: String!, pageSize: Int): [Trace!]
+}
+
+type Mutation {
+  # Compute
+  createInstance(project: String!, zone: String!, name: String!, machineType: String!, input: JSON!): Instance
+  deleteInstance(project: String!, zone: String!, name: String!): Boolean
+  startInstance(project: String!, zone: String!, name: String!): Instance
+  stopInstance(project: String!, zone: String!, name: String!): Instance
+
+  # Storage
+  createBucket(project: String!, name: String!, location: String!, storageClass: StorageClass): Bucket
+  deleteBucket(name: String!): Boolean
+  deleteBucketObject(bucket: String!, name: String!): Boolean
+
+  # Databases
+  createCloudSQLInstance(project: String!, region: Region!, input: JSON!): CloudSQLInstance
+  deleteCloudSQLInstance(project: String!, name: String!): Boolean
+  createSpanner(project: String!, input: JSON!): Spanner
+  deleteSpanner(project: String!, instanceId: String!): Boolean
+
+  # Kubernetes
+  createGKECluster(project: String!, location: String!, input: JSON!): GKECluster
+  deleteGKECluster(project: String!, location: String!, name: String!): Boolean
+  createNodePool(cluster: ID!, input: JSON!): NodePool
+  deleteNodePool(id: ID!): Boolean
+
+  # Serverless
+  createCloudFunction(project: String!, region: Region!, input: JSON!): CloudFunction
+  deleteCloudFunction(id: ID!): Boolean
+  createCloudRun(project: String!, region: Region!, input: JSON!): CloudRun
+  deleteCloudRun(id: ID!): Boolean
+
+  # Big Data
+  createPubSubTopic(project: String!, name: String!): PubSubTopic
+  deletePubSubTopic(id: ID!): Boolean
+  createPubSubSubscription(topic: ID!, name: String!, input: JSON!): PubSubSubscription
+  deletePubSubSubscription(id: ID!): Boolean
+  createBigQueryDataset(project: String!, input: JSON!): BigQueryDataset
+  deleteBigQueryDataset(id: ID!): Boolean
+
+  # Security
+  setIAMPolicy(resource: String!, policy: JSON!): IAMPolicy
+  createServiceAccount(project: String!, accountId: String!, displayName: String): ServiceAccount
+  deleteServiceAccount(id: ID!): Boolean
+  createSecret(project: String!, secretId: String!, replication: JSON): SecretManagerSecret
+  addSecretVersion(secret: ID!, payload: String!): SecretVersion
+  deleteSecret(id: ID!): Boolean
+
+  # AI/ML
+  predict(endpoint: ID!, instances: JSON!, parameters: JSON): Prediction
+  createBatchPrediction(project: String!, location: Region!, input: JSON!): BatchPrediction
+  embedText(model: String!, content: String!, taskType: String): TextEmbedding
+
+  # Monitoring
+  createAlertPolicy(project: String!, input: JSON!): AlertPolicy
+  deleteAlertPolicy(id: ID!): Boolean
+  createNotificationChannel(project: String!, input: JSON!): NotificationChannel
+  deleteNotificationChannel(id: ID!): Boolean
+}
