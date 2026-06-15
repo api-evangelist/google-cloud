@@ -1,0 +1,372 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Google Compute Engine API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://accounts.google.com/o/oauth2/v2/auth",
+      "accessTokenUrl": "https://oauth2.googleapis.com/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "List instances",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://compute.googleapis.com/compute/v1/projects/:project/zones/:zone/instances",
+        "params": [
+          {
+            "name": "project",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "zone",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "filter",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "maxResults",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "pageToken",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "orderBy",
+            "value": "",
+            "type": "query"
+          }
+        ]
+      },
+      "docs": "Retrieves the list of instances contained within the specified zone."
+    },
+    {
+      "info": {
+        "name": "Create instance",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://compute.googleapis.com/compute/v1/projects/:project/zones/:zone/instances",
+        "params": [
+          {
+            "name": "project",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "zone",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "requestId",
+            "value": "",
+            "type": "query"
+          },
+          {
+            "name": "sourceInstanceTemplate",
+            "value": "",
+            "type": "query"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "Creates an instance resource in the specified project using the data included in the request."
+    },
+    {
+      "info": {
+        "name": "Get instance",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://compute.googleapis.com/compute/v1/projects/:project/zones/:zone/instances/:instance",
+        "params": [
+          {
+            "name": "project",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "zone",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "instance",
+            "value": "",
+            "type": "path"
+          }
+        ]
+      },
+      "docs": "Get instance"
+    },
+    {
+      "info": {
+        "name": "Delete instance",
+        "type": "http"
+      },
+      "http": {
+        "method": "DELETE",
+        "url": "https://compute.googleapis.com/compute/v1/projects/:project/zones/:zone/instances/:instance",
+        "params": [
+          {
+            "name": "project",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "zone",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "instance",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "requestId",
+            "value": "",
+            "type": "query"
+          }
+        ]
+      },
+      "docs": "Delete instance"
+    },
+    {
+      "info": {
+        "name": "Start instance",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://compute.googleapis.com/compute/v1/projects/:project/zones/:zone/instances/:instance/start",
+        "params": [
+          {
+            "name": "project",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "zone",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "instance",
+            "value": "",
+            "type": "path"
+          }
+        ]
+      },
+      "docs": "Start instance"
+    },
+    {
+      "info": {
+        "name": "Stop instance",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://compute.googleapis.com/compute/v1/projects/:project/zones/:zone/instances/:instance/stop",
+        "params": [
+          {
+            "name": "project",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "zone",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "instance",
+            "value": "",
+            "type": "path"
+          }
+        ]
+      },
+      "docs": "Stop instance"
+    },
+    {
+      "info": {
+        "name": "List disks",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://compute.googleapis.com/compute/v1/projects/:project/zones/:zone/disks",
+        "params": [
+          {
+            "name": "project",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "zone",
+            "value": "",
+            "type": "path"
+          }
+        ]
+      },
+      "docs": "List disks"
+    },
+    {
+      "info": {
+        "name": "Create disk",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://compute.googleapis.com/compute/v1/projects/:project/zones/:zone/disks",
+        "params": [
+          {
+            "name": "project",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "zone",
+            "value": "",
+            "type": "path"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "Create disk"
+    },
+    {
+      "info": {
+        "name": "List networks",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://compute.googleapis.com/compute/v1/projects/:project/global/networks",
+        "params": [
+          {
+            "name": "project",
+            "value": "",
+            "type": "path"
+          }
+        ]
+      },
+      "docs": "List networks"
+    },
+    {
+      "info": {
+        "name": "Create network",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://compute.googleapis.com/compute/v1/projects/:project/global/networks",
+        "params": [
+          {
+            "name": "project",
+            "value": "",
+            "type": "path"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "Create network"
+    },
+    {
+      "info": {
+        "name": "List firewalls",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://compute.googleapis.com/compute/v1/projects/:project/global/firewalls",
+        "params": [
+          {
+            "name": "project",
+            "value": "",
+            "type": "path"
+          }
+        ]
+      },
+      "docs": "List firewalls"
+    },
+    {
+      "info": {
+        "name": "Create firewall rule",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "https://compute.googleapis.com/compute/v1/projects/:project/global/firewalls",
+        "params": [
+          {
+            "name": "project",
+            "value": "",
+            "type": "path"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "Create firewall rule"
+    },
+    {
+      "info": {
+        "name": "List machine types",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "https://compute.googleapis.com/compute/v1/projects/:project/zones/:zone/machineTypes",
+        "params": [
+          {
+            "name": "project",
+            "value": "",
+            "type": "path"
+          },
+          {
+            "name": "zone",
+            "value": "",
+            "type": "path"
+          }
+        ]
+      },
+      "docs": "List machine types"
+    }
+  ],
+  "bundled": true
+}

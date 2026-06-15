@@ -2,6 +2,20 @@
   "repo": "google-cloud",
   "feeds": [
     {
+      "source": "https://cloudblog.withgoogle.com/rss/",
+      "feed_url": "https://cloudblog.withgoogle.com/rss/",
+      "title": "",
+      "saved": 14,
+      "method": "feed"
+    },
+    {
+      "source": "https://cloudblog.withgoogle.com/products/ai-machine-learning/rss/",
+      "feed_url": "https://cloudblog.withgoogle.com/products/ai-machine-learning/rss/",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
       "source": "https://cloud.google.com/pricing",
       "feed_url": "https://cloud.google.com/pricing",
       "title": "",
@@ -14,15 +28,8 @@
       "title": "",
       "saved": 0,
       "method": "none"
-    },
-    {
-      "source": "https://cloudblog.withgoogle.com/rss/",
-      "feed_url": "https://cloudblog.withgoogle.com/rss/",
-      "title": "",
-      "saved": 20,
-      "method": "feed"
     }
   ],
-  "fetched": "2026-06-01T23:35:02Z",
-  "post_count": 20
+  "post_count": 42,
+  "fetched": "2026-06-14T20:42:17Z"
 }
