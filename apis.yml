@@ -184,6 +184,10 @@ apis:
   - type: Console
     url: https://console.cloud.google.com/sql
 common:
+- type: MCPServer
+  url: https://docs.cloud.google.com/mcp/overview
+  name: MCP Server
+  description: Google Cloud's fully-managed remote MCP servers for BigQuery, Compute Engine, GKE, and more, governed by Cloud IAM with Model Armor prompt-injection defense.
 - type: GitHubOrganization
   url: https://github.com/GoogleCloudPlatform
 - type: LinkedIn
