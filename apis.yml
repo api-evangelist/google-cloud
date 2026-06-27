@@ -218,7 +218,7 @@ common:
   url: https://cloud.google.com/terms
 - type: PrivacyPolicy
   url: https://policies.google.com/privacy
-- type: SignUp
+- type: Signup
   url: https://console.cloud.google.com/freetrial
 - type: Login
   url: https://console.cloud.google.com/
