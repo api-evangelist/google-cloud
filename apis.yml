@@ -184,6 +184,8 @@ apis:
   - type: Console
     url: https://console.cloud.google.com/sql
 common:
+- type: OAuthScopes
+  url: scopes/google-cloud-scopes.yml
 - type: MCPServer
   url: https://docs.cloud.google.com/mcp/overview
   name: MCP Server
