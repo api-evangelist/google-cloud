@@ -184,6 +184,12 @@ apis:
   - type: Console
     url: https://console.cloud.google.com/sql
 common:
+- type: VulnerabilityDisclosure
+  url: security/google-cloud-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/google-cloud-domain-security.yml
+- type: Authentication
+  url: authentication/google-cloud-authentication.yml
 - type: OAuthScopes
   url: scopes/google-cloud-scopes.yml
 - type: MCPServer
