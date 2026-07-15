@@ -184,6 +184,8 @@ apis:
   - type: Console
     url: https://console.cloud.google.com/sql
 common:
+- type: AgenticAccess
+  url: agentic-access/google-cloud-agentic-access.yml
 - type: VulnerabilityDisclosure
   url: security/google-cloud-vulnerability-disclosure.yml
 - type: DomainSecurity
