@@ -5,7 +5,7 @@
       "source": "https://cloudblog.withgoogle.com/rss/",
       "feed_url": "https://cloudblog.withgoogle.com/rss/",
       "title": "",
-      "saved": 0,
+      "saved": 19,
       "method": "feed"
     },
     {
@@ -20,16 +20,18 @@
       "feed_url": "https://cloud.google.com/pricing",
       "title": "",
       "saved": 0,
-      "method": "none"
+      "method": "none",
+      "error": "parse_failed"
     },
     {
       "source": "https://cloud.google.com/blog",
       "feed_url": "https://cloud.google.com/blog",
       "title": "",
       "saved": 0,
-      "method": "none"
+      "method": "none",
+      "error": "parse_failed"
     }
   ],
-  "post_count": 151,
-  "fetched": "2026-08-06T14:08:46Z"
+  "post_count": 170,
+  "fetched": "2026-08-15T12:11:08Z"
 }
