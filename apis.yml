@@ -19,7 +19,7 @@ description: Google Cloud Platform provides a comprehensive suite of cloud compu
   capabilities.
 url: https://cloud.google.com/
 type: Index
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 created: '2024-01-01'
 modified: '2026-05-04'
 apis:
