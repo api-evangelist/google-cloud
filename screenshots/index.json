@@ -6,5 +6,14 @@
     "source_type": "Portal",
     "file": "google-cloud-2026-06-20T182037.png",
     "bytes": 32317
+  },
+  {
+    "repo": "google-cloud",
+    "captured_at": "2026-08-17T082807",
+    "source_url": "https://cloud.google.com/docs/get-started",
+    "source_type": "GettingStarted",
+    "file": "google-cloud-2026-08-17T082807.png",
+    "bytes": 207378,
+    "capture": "playwright-local"
   }
 ]
