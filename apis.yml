@@ -29,6 +29,8 @@ apis:
   humanURL: https://cloud.google.com/compute
   baseURL: https://compute.googleapis.com
   tags:
+  - Project
+  tags_raw:
   - Projects
   properties:
   - type: OpenAPI
@@ -201,6 +203,12 @@ maintainers:
   email: kin@apievangelist.com
   url: https://apievangelist.com
 tags:
+- Cloud Computing
+- Data Analytics
+- Infrastructure
+- Machine-Learning
+- Platform-as-a-Service
+tags_raw:
 - Cloud Computing
 - Data Analytics
 - Infrastructure
